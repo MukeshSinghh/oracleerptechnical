@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+
+    <title>Fusion - Queries</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-style.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+
+  </head>
+  
+  <BODY class="is-preload">
+    <H1>Oracle Fusion SQL Queries for Quick References</H1>
+    <BR>
+    <H2> Query to get Oracle Projects Basic Information </H2>
+      <BR>
+    <P>
+    SELECT DISTINCT  PPA.segment1 project_number
+      ,PPA.name project_name
+      ,HOU.name organization_name
+      ,PPT.project_type 
+      ,TO_CHAR(PPA.start_date, 'DD-MON-YYYY') start_date
+      ,TO_CHAR(PPA.completion_date, 'DD-MON-YYYY') completion_date
+	  ,(select xep.name from xle_entity_profiles xep where xep.legal_entity_id = PPA.LEGAL_ENTITY_ID) Legal_Entity
+	  ,(select PPA1.name from pjf_projects_all_vl PPA1 where PPA1.project_id = PPA.created_from_project_id) Template_name
+	  ,ppa.attribute1 Secondary_Service_Line
+	  ,ppa.attribute3 Opportunity_number	  
+	  ,ppa.project_id
+      ,ppa.creation_date
+      ,ppa.last_update_date
+  FROM pjf_projects_all_vl PPA
+      ,hr_all_organization_units HOU
+      ,pjf_project_types_vl PPT
+ WHERE PPA.carrying_out_organization_id = HOU.organization_id
+   AND PPA.project_type_id = PPT.project_type_id
+      </P>
+</BODY>
+</HTML>
